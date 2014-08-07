@@ -1,25 +1,37 @@
 <?php
-\backend\assets\ArtDialogAsset::register($this);
+use yii\helpers\Html;
+use backend\assets\ArtDialogAsset;
+ArtDialogAsset::register($this);
 ?>
 <?php
 $form = \yii\widgets\ActiveForm::begin([
     'id' => 'artform',
-    'action'=>'sys/mange',
-//    'enableAjaxValidation'=>true,
-//    'validationUrl'=>\yii\helpers\Url::to('user/reg')
+    'action'=>'sys/save',
 ])
 ?>
 <?=
 $form->field($model, 'menuname')->textInput([
     'placeholder' => '菜单名称'
 ]) ?>
-<?=
-$form->field($model, 'route')->textInput([
-    'placeholder' => '路由地址'
-]) ?>
+<?php if($model->level==3 )
+{
+    echo $form->field($model, 'route')->textInput([
+        'placeholder' => '路由地址'
+    ]);
+}
+?>
 <?= $form->field($model,'menuicon')->textInput([
     'placeholder' => '菜单Icon'
 ]) ?>
+<?php
+if($model->level == 3)
+{
+    echo $form->field($model,'isvisible')->checkbox(['value'=>'1']);
+}
+?>
+<?= Html::hiddenInput('id',$model->id) ?>
+<?= Html::hiddenInput('Menu[parentid]',$model->parentid) ?>
+<?= Html::hiddenInput('Menu[level]',$model->level) ?>
 <?php
 $form->end();
 ?>
@@ -41,6 +53,7 @@ $form->end();
             {
                 name: '确定',
                 callback: function () {
+                    alert(yii.getCsrfToken);
                     var form = jQuery('#artform');
                     jQuery.ajax({
                         url: form.attr('action'),
@@ -63,7 +76,7 @@ $form->end();
                 }
             },
             {
-                name: '取消'
+                name: '关闭'
             }
         );
     })();

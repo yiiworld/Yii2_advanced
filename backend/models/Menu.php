@@ -31,7 +31,7 @@ class Menu extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parentid', 'isvisible'], 'integer'],
+            [['parentid', 'isvisible', 'level'], 'integer'],
             [['menuname'], 'required','message'=>'菜单名称不能为空'],
             ['route','required','message'=>'路由不能为空','on'=>'fun'],
             [['menuname', 'plat', 'route', 'menuicon'], 'string', 'max' => 200]
@@ -45,12 +45,12 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'parentid' => 'Parentid',
-            'menuname' => 'Menuname',
-            'plat' => 'Plat',
-            'route' => 'Route',
-            'isvisible' => 'Isvisible',
-            'menuicon' => 'Menuicon',
+            'parentid' => '父类ID',
+            'menuname' => '菜单名称',
+            'plat' => '平台',
+            'route' => '路由',
+            'isvisible' => '是否可见',
+            'menuicon' => '菜单Icon',
         ];
     }
     /**

@@ -10,25 +10,25 @@ $this->registerCssFile('css/treeview.css');
             <li>
                 <span><i class="icon-folder-open"></i> <?= $v['menuname'] ?></span>
                 <a class="icon-plus" href="javascript:;"
-                   onclick="add('add',<?= $v->id; ?> , <?= $v->parentid ?>)" title="添加"></a>
+                   onclick="add('add',<?= $v->id; ?> , <?= $v->level ?>)" title="添加"></a>
                 <a class="icon-edit" href="javascript:;"
-                   onclick="add('edit',<?= $v->id; ?> , <?= $v->parentid ?>)" title="编辑"></a>
+                   onclick="add('edit',<?= $v->id; ?> , <?= $v->level ?>)" title="编辑"></a>
                 <a class="icon-trash" href="javascript:;" onclick="del(<?= $v->id; ?>)" title="删除"></a>
                 <ul>
                     <?php foreach ($v->son as $son): ?>
                         <li>
                             <span><i class="icon-minus-sign"></i> <?= $son['menuname'] ?></span>
                             <a class="icon-plus" href="javascript:;"
-                               onclick="add('add',<?= $son->id; ?> , <?= $son->parentid ?>)" title="添加"></a>
+                               onclick="add('add',<?= $son->id; ?> , <?= $son->level ?>)" title="添加"></a>
                             <a class="icon-edit" href="javascript:;"
-                               onclick="add('edit',<?= $son->id; ?> , <?= $son->parentid ?>)" title="编辑"></a>
+                               onclick="add('edit',<?= $son->id; ?> , <?= $son->level ?>)" title="编辑"></a>
                             <a class="icon-trash" href="javascript:;" onclick="del(<?= $son->id; ?>)" title="删除"></a>
                             <ul>
                                 <?php foreach ($son->son as $gson): ?>
                                     <li>
                                         <span><i class="<?= $gson->menuicon ?>"></i> <?= $gson['menuname'] ?></span>
                                         <a class="icon-edit" href="javascript:;"
-                                           onclick="add('edit',<?= $gson->id; ?> , <?= $gson->parentid ?>)" title="编辑"></a>
+                                           onclick="add('edit',<?= $gson->id; ?> , <?= $gson->level ?>)" title="编辑"></a>
                                         <a class="icon-trash" href="javascript:;" onclick="del(<?= $gson->id; ?>)" title="删除"></a>
                                     </li>
                                 <?php endforeach; ?>
@@ -40,6 +40,7 @@ $this->registerCssFile('css/treeview.css');
         <?php endforeach; ?>
     </ul>
 </div>
+<?= \yii\helpers\Html::csrfMetaTags() ?>
 <script>
     $(function () {
         $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
@@ -55,8 +56,8 @@ $this->registerCssFile('css/treeview.css');
             e.stopPropagation();
         });
     });
-    function add(act, id, pid) {
-        art.dialog.open('/sys/add?id=' + id + '&pid=' + pid + '&act=' + act, {title: '添加游戏', width: 580, height: 330, lock: true});
+    function add(act, id, level) {
+        art.dialog.open('/sys/mange?id=' + id + '&level=' + level + '&act=' + act, {title: '添加游戏', width: 580, height: 330, lock: true});
     }
     function reloadmain() {
         var win = art.dialog.open.origin; //来源页面
@@ -65,9 +66,9 @@ $this->registerCssFile('css/treeview.css');
     function del(id) {
         art.dialog.confirm('确定要删除？', function () {
             $.ajax({
-                url: '/table/del',
+                url: '/sys/del',
                 type: 'post',
-                data: 'id=' + id,
+                data: 'id=' + id + '&_csrf='+$('meta[name="csrf-token"]').attr('content'),
                 dataType: 'json',
                 success: function (data) {
                     if (data == 1) {

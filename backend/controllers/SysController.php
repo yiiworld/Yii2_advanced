@@ -7,6 +7,7 @@ use backend\models\AdminUser;
 use backend\models\Menu;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 
 class SysController extends \yii\web\Controller
@@ -29,7 +30,8 @@ class SysController extends \yii\web\Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'mange' => ['post'],
+                    'save' => ['post'],
+//                    'del'=>['post'],
                 ],
             ],
         ];
@@ -45,33 +47,54 @@ class SysController extends \yii\web\Controller
             'list'=>$list,
         ]);
     }
-    public function actionAdd()
-    {
-        $id = Yii::$app->request->get('id');
-        $pid = Yii::$app->request->get('pid');
-        $act = Yii::$app->request->get('act');
-        if($act=='add')
-            $model = new Menu();
-        else
-            $model = Menu::findOne($id);
-        if(Menu::findOne($pid)->parentid===0)
-            $model->scenario = 'fun';
-        $model->loadDefaultValues();
-//        return StringHelper::dump($model->attributes);
-        $this->layout = 'main2';
-        return $this->render('add',[
-            'model'=>$model,
-            'id'=>$id,
-            'pid'=>$pid,
-            'act'=>$act,
-        ]);
-    }
+
+    /**
+     * 菜单管理-添加、修改
+     * @return string
+     */
     public function actionMange()
     {
-        $model = new Menu();
+        $gets = Yii::$app->request->get();
+        if($gets['act']=='add')
+        {
+            $model = new Menu();
+            $model->loadDefaultValues();
+            $model->level += $gets['level'];
+            $model->parentid = $gets['id'];
+        }
+        else
+            $model = Menu::findOne($gets['id']);
+
+        if($model->level==3)
+            $model->scenario = 'fun';
+        $this->layout = 'main2';
+        return $this->render('mange',[
+            'model'=>$model,
+            'gets'=>$gets,
+        ]);
+    }
+
+    /**
+     * 保存修改
+     * @return int
+     */
+    public function actionSave()
+    {
+        if($id = Yii::$app->request->post('id'))
+            $model = Menu::findOne($id);
+        else
+            $model = new Menu();
         $model->load(Yii::$app->request->post());
         $rzt = $model->save();
         return $rzt?1:0;
-        return StringHelper::dump($model);
+    }
+    public function actionDel()
+    {
+        echo 111;exit;
+        return Yii::$app->request->post('id');
+    }
+    public function actionTest()
+    {
+        return StringHelper::dump(Yii::$app->request->post());
     }
 }

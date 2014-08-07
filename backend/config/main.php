@@ -28,7 +28,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'user/error',
         ],
         'request' => [
             'enableCookieValidation' => true,
