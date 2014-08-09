@@ -53,7 +53,6 @@ $form->end();
             {
                 name: '确定',
                 callback: function () {
-                    alert(yii.getCsrfToken);
                     var form = jQuery('#artform');
                     jQuery.ajax({
                         url: form.attr('action'),

@@ -13,7 +13,7 @@ $this->registerCssFile('css/treeview.css');
                    onclick="add('add',<?= $v->id; ?> , <?= $v->level ?>)" title="添加"></a>
                 <a class="icon-edit" href="javascript:;"
                    onclick="add('edit',<?= $v->id; ?> , <?= $v->level ?>)" title="编辑"></a>
-                <a class="icon-trash" href="javascript:;" onclick="del(<?= $v->id; ?>)" title="删除"></a>
+                <a class="icon-trash" href="javascript:;" onclick="del(<?= $v->id; ?>,<?= $v->level ?>)" title="删除"></a>
                 <ul>
                     <?php foreach ($v->son as $son): ?>
                         <li>
@@ -22,14 +22,14 @@ $this->registerCssFile('css/treeview.css');
                                onclick="add('add',<?= $son->id; ?> , <?= $son->level ?>)" title="添加"></a>
                             <a class="icon-edit" href="javascript:;"
                                onclick="add('edit',<?= $son->id; ?> , <?= $son->level ?>)" title="编辑"></a>
-                            <a class="icon-trash" href="javascript:;" onclick="del(<?= $son->id; ?>)" title="删除"></a>
+                            <a class="icon-trash" href="javascript:;" onclick="del(<?= $son->id; ?>,<?= $son->level ?>)" title="删除"></a>
                             <ul>
                                 <?php foreach ($son->son as $gson): ?>
                                     <li>
                                         <span><i class="<?= $gson->menuicon ?>"></i> <?= $gson['menuname'] ?></span>
                                         <a class="icon-edit" href="javascript:;"
                                            onclick="add('edit',<?= $gson->id; ?> , <?= $gson->level ?>)" title="编辑"></a>
-                                        <a class="icon-trash" href="javascript:;" onclick="del(<?= $gson->id; ?>)" title="删除"></a>
+                                        <a class="icon-trash" href="javascript:;" onclick="del(<?= $gson->id; ?>,<?= $gson->level ?>)" title="删除"></a>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
@@ -63,12 +63,12 @@ $this->registerCssFile('css/treeview.css');
         var win = art.dialog.open.origin; //来源页面
         win.location.reload();
     }
-    function del(id) {
+    function del(id,level) {
         art.dialog.confirm('确定要删除？', function () {
             $.ajax({
                 url: '/sys/del',
                 type: 'post',
-                data: 'id=' + id + '&_csrf='+$('meta[name="csrf-token"]').attr('content'),
+                data: 'id=' + id + '&level='+ level + '&_csrf='+$('meta[name="csrf-token"]').attr('content'),
                 dataType: 'json',
                 success: function (data) {
                     if (data == 1) {

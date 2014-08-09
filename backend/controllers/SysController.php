@@ -90,8 +90,12 @@ class SysController extends \yii\web\Controller
     }
     public function actionDel()
     {
-        echo 111;exit;
-        return Yii::$app->request->post('id');
+        $gets = Yii::$app->request->post();
+        if($gets['level']==3)
+        {
+            $model = Menu::findOne($gets['id']);
+            return $model->delete()?1:0;
+        }
     }
     public function actionTest()
     {
