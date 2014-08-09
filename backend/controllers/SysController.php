@@ -99,6 +99,8 @@ class SysController extends \yii\web\Controller
     }
     public function actionTest()
     {
-        return StringHelper::dump(Yii::$app->request->post());
+        Yii::$app->mailer->compose('@common/mail/mailtemp',[
+           'name'=>'哈哈',
+        ])->setFrom('289209336@qq.com')->setTo('nevermore1989@vip.qq.com')->send();
     }
 }

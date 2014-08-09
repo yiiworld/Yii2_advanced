@@ -35,6 +35,17 @@ return [
             'enableCsrfValidation' => true,
             'cookieValidationKey' => 'backend',
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.qq.com',
+                'username' => '289209336@qq.com',
+                'password' => 'nicaicai',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
+        ],
     ],
     'params' => $params,
 ];
