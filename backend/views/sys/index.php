@@ -1,44 +1,60 @@
 <?php
 use yii\web\View;
+
 $this->title = Yii::$app->params['webname'] . "-菜单管理";
 $this->registerCssFile('css/treeview.css');
 \backend\assets\ArtDialogAsset::register($this);
 ?>
 <div class="tree well">
     <ul>
-        <?php foreach ($list as $v): ?>
-            <li>
-                <span><i class="icon-folder-open"></i> <?= $v['menuname'] ?></span>
-                <a class="icon-plus" href="javascript:;"
-                   onclick="add('add',<?= $v->id; ?> , <?= $v->level ?>)" title="添加"></a>
-                <a class="icon-edit" href="javascript:;"
-                   onclick="add('edit',<?= $v->id; ?> , <?= $v->level ?>)" title="编辑"></a>
-                <a class="icon-trash" href="javascript:;" onclick="del(<?= $v->id; ?>,<?= $v->level ?>)" title="删除"></a>
-                <ul>
-                    <?php foreach ($v->son as $son): ?>
-                        <li>
-                            <span><i class="icon-minus-sign"></i> <?= $son['menuname'] ?></span>
-                            <a class="icon-plus" href="javascript:;"
-                               onclick="add('add',<?= $son->id; ?> , <?= $son->level ?>)" title="添加"></a>
-                            <a class="icon-edit" href="javascript:;"
-                               onclick="add('edit',<?= $son->id; ?> , <?= $son->level ?>)" title="编辑"></a>
-                            <a class="icon-trash" href="javascript:;" onclick="del(<?= $son->id; ?>,<?= $son->level ?>)" title="删除"></a>
-                            <ul>
-                                <?php foreach ($son->son as $gson): ?>
-                                    <li>
-                                        <span><i class="<?= $gson->menuicon ?>"></i> <?= $gson['menuname'] ?></span>
-                                        <a class="icon-edit" href="javascript:;"
-                                           onclick="add('edit',<?= $gson->id; ?> , <?= $gson->level ?>)" title="编辑"></a>
-                                        <a class="icon-trash" href="javascript:;" onclick="del(<?= $gson->id; ?>,<?= $gson->level ?>)" title="删除"></a>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </li>
-        <?php endforeach; ?>
+        <li>
+            <span><i class="icon-folder-open"></i> <?= Yii::$app->params['webname'] ?></span>
+            <a class="icon-plus" href="javascript:;"
+               onclick="add('add',0 , 0)" title="添加"></a>
+        </li>
+        <li>
+            <ul>
+                <?php foreach ($list as $v): ?>
+                    <li>
+                        <span><i class="icon-folder-open"></i> <?= $v['menuname'] ?></span>
+                        <a class="icon-plus" href="javascript:;"
+                           onclick="add('add',<?= $v->id; ?> , <?= $v->level ?>)" title="添加"></a>
+                        <a class="icon-edit" href="javascript:;"
+                           onclick="add('edit',<?= $v->id; ?> , <?= $v->level ?>)" title="编辑"></a>
+                        <a class="icon-trash" href="javascript:;" onclick="del(<?= $v->id; ?>,<?= $v->level ?>)"
+                           title="删除"></a>
+                        <ul>
+                            <?php foreach ($v->son as $son): ?>
+                                <li>
+                                    <span><i class="icon-minus-sign"></i> <?= $son['menuname'] ?></span>
+                                    <a class="icon-plus" href="javascript:;"
+                                       onclick="add('add',<?= $son->id; ?> , <?= $son->level ?>)" title="添加"></a>
+                                    <a class="icon-edit" href="javascript:;"
+                                       onclick="add('edit',<?= $son->id; ?> , <?= $son->level ?>)" title="编辑"></a>
+                                    <a class="icon-trash" href="javascript:;"
+                                       onclick="del(<?= $son->id; ?>,<?= $son->level ?>)" title="删除"></a>
+                                    <ul>
+                                        <?php foreach ($son->son as $gson): ?>
+                                            <li>
+                                                <span><i
+                                                        class="<?= $gson->menuicon ?>"></i> <?= $gson['menuname'] ?></span>
+                                                <a class="icon-edit" href="javascript:;"
+                                                   onclick="add('edit',<?= $gson->id; ?> , <?= $gson->level ?>)"
+                                                   title="编辑"></a>
+                                                <a class="icon-trash" href="javascript:;"
+                                                   onclick="del(<?= $gson->id; ?>,<?= $gson->level ?>)" title="删除"></a>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
     </ul>
+
 </div>
 <?= \yii\helpers\Html::csrfMetaTags() ?>
 <script>
@@ -63,12 +79,12 @@ $this->registerCssFile('css/treeview.css');
         var win = art.dialog.open.origin; //来源页面
         win.location.reload();
     }
-    function del(id,level) {
+    function del(id, level) {
         art.dialog.confirm('确定要删除？', function () {
             $.ajax({
                 url: '/sys/del',
                 type: 'post',
-                data: 'id=' + id + '&level='+ level + '&_csrf='+$('meta[name="csrf-token"]').attr('content'),
+                data: 'id=' + id + '&level=' + level + '&_csrf=' + $('meta[name="csrf-token"]').attr('content'),
                 dataType: 'json',
                 success: function (data) {
                     if (data == 1) {

@@ -91,11 +91,16 @@ class SysController extends \yii\web\Controller
     public function actionDel()
     {
         $gets = Yii::$app->request->post();
-        if($gets['level']==3)
+        if($gets['level']==1)
         {
-            $model = Menu::findOne($gets['id']);
-            return $model->delete()?1:0;
+            $sql = "delete from t_menu where parentid in (select id from (select id from t_menu where parentid =".$gets['id'].") t)";
+            Yii::$app->db->createCommand($sql)->execute();
         }
+        if($gets['level']<=2)
+        {
+            Menu::deleteAll(['in','parentid',Menu::find()->where('parentid=:pid',[':pid'=>$gets['id']])->column()]);
+        }
+        return Menu::findOne($gets['id'])->delete()?1:0;
     }
     public function actionTest()
     {
