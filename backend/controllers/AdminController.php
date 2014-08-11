@@ -2,11 +2,8 @@
 
 namespace backend\controllers;
 
-use common\models\User;
-use common\models\LoginForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use backend\models\AdminUser;
 class AdminController extends BackendController
 {
     public function behaviors()
@@ -27,7 +24,6 @@ class AdminController extends BackendController
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-//                    'logout' => ['post'],
                 ],
             ],
         ];
@@ -41,9 +37,5 @@ class AdminController extends BackendController
     public function actionIndex()
     {
         return $this->render('index');
-    }
-    public function actionMenu()
-    {
-        return $this->render('menu');
     }
 }
