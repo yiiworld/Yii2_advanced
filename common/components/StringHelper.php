@@ -122,7 +122,7 @@ class StringHelper extends BaseStringHelper
             $tmpfield[] = iconv("UTF-8", "GB18030", $titlelist[$val]);
         }
         $cpfield = $tmpfield;
-        $path = public_path()."/tmp/".Date('Ymd')."/";
+        $path = \Yii::getAlias('@backend/web').'/tmp/'.Date('Ymd').'/';
         if(!file_exists($path))
             mkdir($path, 0777, true);
         $uploadfile = $path."report_".$reportname."_".Date('YmdHis').".csv";
@@ -137,7 +137,7 @@ class StringHelper extends BaseStringHelper
                 $tmpfield[] = iconv("UTF-8", "GB18030", $recordset[$k][$key]);
             }
             $cpfield = $tmpfield;
-            $b = fputcsv($fp, $cpfield);
+            fputcsv($fp, $cpfield);
         }
         fclose($fp);
         return $uploadfile;

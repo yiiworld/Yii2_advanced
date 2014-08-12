@@ -25,10 +25,12 @@ $this->title = Yii::$app->params['webname']."-用户管理";
                 <div class="widget-body"><div class="widget-body-inner" style="display: block;">
                         <div class="widget-main">
                             <div class="widget-main no-padding">
+                                <a href="<?= \yii\helpers\Url::toRoute(['user/mange','act'=>'export','username'=>$search['username']]) ?>">
                                 <button class="btn btn-success btn-app btn-xs">
                                     <i class="icon-share-alt smaller-80"></i>
                                     导出
                                 </button>
+                                </a>
                                 <button type="button" class="btn btn-primary btn-app btn-xs" onclick="add()">
                                     <i class="icon-plus smaller-80"></i>
                                     添加

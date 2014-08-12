@@ -10,6 +10,7 @@ use backend\models\AdminUser;
 use yii\data\Pagination;
 use yii\helpers\StringHelper;
 use yii\helpers\ArrayHelper;
+use yii\web\Response;
 
 class UserController extends BackendController
 {
@@ -81,6 +82,18 @@ class UserController extends BackendController
             'defaultPageSize'=>15,
             
         ]);
+        if(Yii::$app->request->get('act')=='export')
+        {
+            $q = clone $query;
+            $l = $q->asArray()->all();
+            $titlelist = [
+                'id'=>'ID',
+                'username'=>'用户名',
+            ];
+            $csv = StringHelper::csvput($l,'user',$titlelist);
+            $response = new Response();
+            $response->sendFile($csv)->send();
+        }
         $list = $query->offset($pages->offset)
                 ->limit($pages->limit)
                 ->orderby('id desc')
