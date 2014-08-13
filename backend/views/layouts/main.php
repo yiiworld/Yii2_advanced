@@ -373,9 +373,6 @@ use yii\helpers\Html;
 
 <script type="text/javascript">
     $(document).ready(function(){
-        //收缩菜单
-//        var sidbar = $.cookie('sidbar');
-//        $('#sidebar').attr('class',sidbar);
         //自动打开菜单
         var active = $('#active');
         active.attr('class','active');
@@ -383,18 +380,6 @@ use yii\helpers\Html;
         parentli.attr('class','active open');
         parentli.parent().parent().attr('class','active open');
     })
-    //设置侧边栏收缩
-    function cgsidbar()
-    {
-        var c = $('#sidebar').attr('class');
-        if(c=='sidebar')
-        {
-            $.cookie('sidbar','sidebar menu-min');
-        }else
-        {
-            $.cookie('sidbar','sidebar');
-        }
-    }
 </script>
 
 <?php $this->endBody() ?>
