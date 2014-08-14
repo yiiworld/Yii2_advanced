@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
-
 \backend\assets\AppAsset::register($this);
+$this->registerJsFile('/js/jquery.cookie.js');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ use yii\helpers\Html;
     <?php $this->head() ?>
 </head>
 
-<body>
+<body onchange="Cskin(this)">
 <?php $this->beginBody() ?>
 <div class="navbar navbar-default" id="navbar">
     <script type="text/javascript">
@@ -374,6 +374,8 @@ use yii\helpers\Html;
 
 <script type="text/javascript">
     $(document).ready(function () {
+        //设置皮肤
+        $('body').attr('class', $.cookie('skin'));
         //自动打开菜单
         var active = $('#active');
         active.attr('class', 'active');
@@ -381,6 +383,11 @@ use yii\helpers\Html;
         parentli.attr('class', 'active open');
         parentli.parent().parent().attr('class', 'active open');
     })
+    function Cskin(o)
+    {
+        var skin = $(o).attr('class');
+        $.cookie('skin',skin,{path:'/'})
+    }
 </script>
 
 <?php $this->endBody() ?>

@@ -3,11 +3,9 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\AdminUser;
 use backend\models\Menu;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
 
 class SysController extends \yii\web\Controller
