@@ -42,5 +42,6 @@ class AppAsset extends AssetBundle
         'backend\assets\LtIe9Asset',
         'backend\assets\IeAsset',
         'backend\assets\NotIeAsset',
+        'backend\assets\CookieAsset',
     ];
 }

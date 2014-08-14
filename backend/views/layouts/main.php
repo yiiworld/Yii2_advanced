@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 \backend\assets\AppAsset::register($this);
-$this->registerJsFile('/js/jquery.cookie.js');
+//$this->registerJsFile('/js/jquery.cookie.js');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -371,11 +371,10 @@ $this->registerJsFile('/js/jquery.cookie.js');
     if ("ontouchend" in document)
         document.write("<script src='/core-assets/js/jquery.mobile.custom.min.js'>" + "<" + "script>");
 </script>
-
 <script type="text/javascript">
-    $(document).ready(function () {
+    jQuery(document).ready(function () {
         //设置皮肤
-        $('body').attr('class', $.cookie('skin'));
+        jQuery('body').attr('class', $.cookie('skin'));
         //自动打开菜单
         var active = $('#active');
         active.attr('class', 'active');

@@ -38,4 +38,16 @@ class AdminController extends BackendController
     {
         return $this->render('index');
     }
+    /*
+    |--------------------------------------------------------------------------
+    | Jui测试
+    |--------------------------------------------------------------------------
+    |
+    */
+    public function actionTest()
+    {
+        return $this->render('test',[
+
+        ]);
+    }
 }
